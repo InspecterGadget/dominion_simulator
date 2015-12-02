@@ -1,8 +1,6 @@
 __author__ = 'stevenkerr'
 import card_classes
-import player_two_alg
-#change
-
+import player_one_alg
 
 class Player_info():
     def __init__(self):
@@ -35,7 +33,7 @@ turn = Turn()
 ccd = card_classes.name_to_inst_dict
 bank = card_classes.bank
 
-def two_take_turn(player):
+def one_take_turn(player):
     start_turn(player,bank,turn)
     turn.actions_available = return_action_cards(turn.player)
     action_phase()
@@ -51,7 +49,7 @@ def action_phase():
         if ate_name == 'None':
             break
         ate = ccd[ate_name]
-        strategy = player_two_alg.execute_action_strategy(turn,ate)
+        strategy = player_one_alg.execute_action_strategy(turn,ate)
         move_executed_actions(ate)
         ate.execute_action(turn,strategy)
         turn.actions_available = return_action_cards(turn.player)
@@ -59,7 +57,7 @@ def action_phase():
 
 
 def get_ate(player_info):
-    action_name = player_two_alg.action_choice(player_info)
+    action_name = player_one_alg.action_choice(player_info)
     return action_name
 
 def move_executed_actions(action):
@@ -84,7 +82,7 @@ def buy_phase():
 def get_card_to_buy():
     player_info = Player_info()
     update_player_info(turn,player_info)
-    ctb_name = player_two_alg.buy_choice(player_info)
+    ctb_name = player_one_alg.buy_choice(player_info)
 
     return ctb_name
 
@@ -138,5 +136,7 @@ def inst_to_string_convert(instance_list):
     for x in range(0,len(instance_list)):
         string_list.append(instance_list[x].name)
     return string_list
+
+
 
 
