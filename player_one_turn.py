@@ -1,6 +1,8 @@
 __author__ = 'stevenkerr'
 import card_classes
 import player_one_alg
+import player_two_alg
+from random import shuffle
 
 class Player_info():
     def __init__(self):
@@ -21,6 +23,7 @@ class Player_info():
 class Turn():
     def __init__(self):
         self.player = 0
+        self.opponent = 0
         self.actions_remaining = 1
         self.actions_available = []
         self.buys_remaining = 1
@@ -33,31 +36,37 @@ turn = Turn()
 ccd = card_classes.name_to_inst_dict
 bank = card_classes.bank
 
-def one_take_turn(player):
-    start_turn(player,bank,turn)
+def take_turn(player, opponent, one_or_two):
+    start_turn(player,bank,turn,opponent)
     turn.actions_available = return_action_cards(turn.player)
-    action_phase()
-    buy_phase()
+    action_phase(one_or_two)
+    buy_phase(one_or_two)
     end_turn()
 
 
-def action_phase():
+def action_phase(one_or_two):
     while turn.actions_available != [] and turn.actions_remaining != 0:
         player_info = Player_info()
         update_player_info(turn,player_info)
-        ate_name = get_ate(player_info)
+        ate_name = get_ate(player_info,one_or_two)
         if ate_name == 'None':
             break
         ate = ccd[ate_name]
-        strategy = player_one_alg.execute_action_strategy(turn,ate)
+        if one_or_two == 1:
+            strategy = player_one_alg.execute_action_strategy(player_info,ate)
+        elif one_or_two == 2:
+            strategy = player_two_alg.execute_action_strategy(player_info,ate)
         move_executed_actions(ate)
         ate.execute_action(turn,strategy)
         turn.actions_available = return_action_cards(turn.player)
 
 
 
-def get_ate(player_info):
-    action_name = player_one_alg.action_choice(player_info)
+def get_ate(player_info,one_or_two):
+    if one_or_two == 1:
+        action_name = player_one_alg.action_choice(player_info)
+    elif one_or_two == 2:
+        action_name = player_two_alg.action_choice(player_info)
     return action_name
 
 def move_executed_actions(action):
@@ -66,10 +75,10 @@ def move_executed_actions(action):
     player.played_actions.append(action)
 
 
-def buy_phase():
+def buy_phase(one_or_two):
     play_treasures()
     while turn.buys_remaining > 0:
-        ctbn = get_card_to_buy()
+        ctbn = get_card_to_buy(one_or_two)
         if ctbn == 'None':
             break
         else:
@@ -79,10 +88,13 @@ def buy_phase():
             turn.treasure -= ctb.cost
 
 
-def get_card_to_buy():
+def get_card_to_buy(one_or_two):
     player_info = Player_info()
     update_player_info(turn,player_info)
-    ctb_name = player_one_alg.buy_choice(player_info)
+    if one_or_two == 1:
+        ctb_name = player_one_alg.buy_choice(player_info)
+    elif one_or_two == 2:
+        ctb_name = player_two_alg.buy_choice(player_info)
 
     return ctb_name
 
@@ -104,9 +116,10 @@ def return_action_cards(player):
             action_list.append(player.hand[x])
     return action_list
 
-def start_turn(player,bank,turn):
+def start_turn(player,bank,turn, opponent):
     turn.actions_remaining = 1
     turn.player = player
+    turn.opponent = opponent
     turn.bank = bank
     turn.buys_remaining = 1
     turn.treasure = 0
@@ -118,8 +131,8 @@ def update_player_info(turn, player_info):
     player_info.discard = inst_to_string_convert(turn.player.discard)
     player_info.hand = inst_to_string_convert(turn.player.hand)
     player_info.actions_played = turn.player.played_actions
-    player_info.opponent_discard = 0
-    player_info.opponent_hand_deck = 0
+    player_info.opponent_discard = inst_to_string_convert(turn.opponent.discard)
+    player_info.opponent_hand_deck = inst_to_string_convert(randomize_opponent(turn.opponent))
     player_info.actions_remaining = turn.actions_remaining
     player_info.actions_available = turn.actions_available
     player_info.buys = turn.buys_remaining
@@ -138,5 +151,8 @@ def inst_to_string_convert(instance_list):
     return string_list
 
 
-
+def randomize_opponent(opponent):
+    deck_hand = opponent.deck + opponent.hand
+    shuffle(deck_hand)
+    return deck_hand
 

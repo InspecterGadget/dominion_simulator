@@ -1,6 +1,6 @@
 __author__ = 'stevenkerr'
 import card_classes
-from player_one_turn import one_take_turn
+from player_one_turn import take_turn
 from player_two_turn import two_take_turn
 from random import shuffle
 bank = card_classes.bank
@@ -151,10 +151,10 @@ def play_game(player_one, player_two):
             player_two.shuffle_discards()
             player_one.draw_cards(5)
             player_two.draw_cards(5)
-        one_take_turn(player_one)
+        take_turn(player_one,player_two,1)
         player_one_turns += 1
         if check_game_not_over():
-            two_take_turn(player_two)
+            take_turn(player_two,player_one,2)
             player_two_turns += 1
     game_result = Game_result()
     game_result.player_one_turns = player_one_turns
