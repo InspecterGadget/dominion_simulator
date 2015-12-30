@@ -51,7 +51,7 @@ def action_phase():
         if ate_name == 'None':
             break
         ate = ccd[ate_name]
-        strategy = player_two_alg.execute_action_strategy(turn,ate)
+        strategy = player_two_alg.execute_action_strategy(player_info,ate)
         move_executed_actions(ate)
         ate.execute_action(turn,strategy)
         turn.actions_available = return_action_cards(turn.player)
