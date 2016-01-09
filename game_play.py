@@ -231,4 +231,4 @@ def play_game_two(num):
     print_winner_list(winner_list,rounds)
 
 #How to run a game
-#play_game_two(1000)
+play_game_two(10000)
