@@ -1,7 +1,6 @@
 __author__ = 'stevenkerr'
 import card_classes
 from player_one_turn import take_turn
-from player_two_turn import two_take_turn
 from random import shuffle
 bank = card_classes.bank
 trash = card_classes.trash
