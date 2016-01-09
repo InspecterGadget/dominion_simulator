@@ -230,12 +230,5 @@ def play_game_two(num):
     print_winner_list(winner_list,rounds)
     print_winner_list(winner_list,rounds)
 
-    player_one.print_list_name(player_one.hand)
-    player_one.print_list_name(player_one.discard)
-    player_one.print_list_name(player_one.deck)
-    player_two.print_list_name(player_two.hand)
-    player_two.print_list_name(player_two.discard)
-    player_two.print_list_name(player_two.deck)
-    print bank
-
-play_game_two(1000)
+#How to run a game
+#play_game_two(1000)
