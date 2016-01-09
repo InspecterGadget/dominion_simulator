@@ -13,6 +13,7 @@ class Player:
         self.discard = []
         self.played_actions = []
 
+        self.turns = [] # store information about each turn played
 
     def print_list_name(self, n_list):
         n_list_print = []
@@ -99,6 +100,12 @@ class Player:
             index = self.index_of_card_type(list,card)
             list.pop(index)
             trash[card] += 1
+
+class Turn_result(object):
+    def __init__(self, hand, actions_played, cards_bought):
+        self.hand = hand
+        self.actions_played = actions_played
+        self.cards_bought = cards_bought
 
 class Game_result():
     def __init__(self):

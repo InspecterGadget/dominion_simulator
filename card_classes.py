@@ -1,7 +1,12 @@
 __author__ = 'stevenkerr'
 
+class BaseCard(object):
+    def __init__(self):
+        pass
+    def __repr__(self):
+        return self.name
 
-class Copper:
+class Copper(BaseCard):
     def __init__(self):
        self.cost = 0
        self.treasure = 1
@@ -13,7 +18,7 @@ class Copper:
        self.bank_name = 'coppers'
 
 
-class Estate:
+class Estate(BaseCard):
     def __init__(self):
         self.cost = 2
         self.treasure = 0
@@ -24,7 +29,7 @@ class Estate:
         self.name = 'Estate'
 
 
-class Silver:
+class Silver(BaseCard):
     def __init__(self):
         self.cost = 3
         self.treasure = 2
@@ -35,7 +40,7 @@ class Silver:
         self.name = 'Silver'
 
 
-class Gold:
+class Gold(BaseCard):
     def __init__(self):
         self.cost = 6
         self.treasure = 3
@@ -46,7 +51,7 @@ class Gold:
         self.name = 'Gold'
 
 
-class Province:
+class Province(BaseCard):
     def __init__(self):
         self.cost = 8
         self.treasure = 0
@@ -57,7 +62,7 @@ class Province:
         self.name = 'Province'
 
 
-class Duchy:
+class Duchy(BaseCard):
     def __init__(self):
         self.cost = 5
         self.treasure = 0
@@ -68,7 +73,7 @@ class Duchy:
         self.name = 'Duchy'
 
 
-class Smithy:
+class Smithy(BaseCard):
     def __init__(self):
         self.cost = 4
         self.treasure = 0
@@ -84,7 +89,7 @@ class Smithy:
         standard_action_execute(turn,self)
 
 
-class Village:
+class Village(BaseCard):
     def __init__(self):
         self.cost = 3
         self.treasure = 0
@@ -100,7 +105,7 @@ class Village:
         standard_action_execute(turn,self)
 
 
-class Laboratory:
+class Laboratory(BaseCard):
     def __init__(self):
         self.cost = 5
         self.treasure = 0
@@ -116,7 +121,7 @@ class Laboratory:
         standard_action_execute(turn,self)
 
 
-class Market:
+class Market(BaseCard):
     def __init__(self):
         self.cost = 5
         self.treasure = 0
@@ -132,7 +137,7 @@ class Market:
         standard_action_execute(turn,self)
 
 
-class Moneylender:
+class Moneylender(BaseCard):
     def __init__(self):
         self.cost = 4
         self.treasure = 0
@@ -152,7 +157,7 @@ class Moneylender:
             turn.treasure += 3
 
 
-class Woodcutter:
+class Woodcutter(BaseCard):
     def __init__(self):
         self.cost = 3
         self.treasure = 0
@@ -168,7 +173,7 @@ class Woodcutter:
         standard_action_execute(turn,self)
 
 
-class Festival:
+class Festival(BaseCard):
     def __init__(self):
         self.cost = 5
         self.treasure = 0
@@ -184,7 +189,7 @@ class Festival:
         standard_action_execute(turn,self)
 
 
-class Remodel:
+class Remodel(BaseCard):
     def __init__(self):
         self.cost = 4
         self.treasure = 0
@@ -208,7 +213,7 @@ class Remodel:
 
 
 
-class Workshop:
+class Workshop(BaseCard):
     def __init__(self):
         self.cost = 3
         self.treasure = 0
@@ -227,7 +232,7 @@ class Workshop:
             turn.player.gain_card(gain_card,4)
 
 
-class Feast:
+class Feast(BaseCard):
     def __init__(self):
         self.cost = 4
         self.treasure = 0
@@ -246,7 +251,7 @@ class Feast:
             turn.player.gain_card(gain_card,5)
             turn.player.trash_card(turn.player.played_actions,'Feast')
 
-class Chapel:
+class Chapel(BaseCard):
     def __init__(self):
         self.cost = 2
         self.treasure = 0

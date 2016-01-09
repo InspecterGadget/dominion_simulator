@@ -3,6 +3,8 @@ import card_classes
 import player_one_alg
 import player_two_alg
 from random import shuffle
+import game_play
+import copy
 
 class Player_info():
     def __init__(self):
@@ -38,13 +40,20 @@ bank = card_classes.bank
 
 def take_turn(player, opponent, one_or_two):
     start_turn(player,bank,turn,opponent)
+    hand = copy.copy(player.hand) # store initial hand
     turn.actions_available = return_action_cards(turn.player)
-    action_phase(one_or_two)
-    buy_phase(one_or_two)
+    actions_played = action_phase(one_or_two)
+    cards_bought = buy_phase(one_or_two)
     end_turn()
 
 
+    # Add turn stats to player
+    turn_result = game_play.Turn_result(player.hand, actions_played, cards_bought)
+    player.turns.append(turn_result)
+
+
 def action_phase(one_or_two):
+    actions_played = []
     while turn.actions_available != [] and turn.actions_remaining != 0:
         player_info = Player_info()
         update_player_info(turn,player_info)
@@ -56,9 +65,14 @@ def action_phase(one_or_two):
             strategy = player_one_alg.execute_action_strategy(player_info,ate)
         elif one_or_two == 2:
             strategy = player_two_alg.execute_action_strategy(player_info,ate)
+
+        actions_played.append((ate_name, strategy)) # keep track of usage
+
         move_executed_actions(ate)
         ate.execute_action(turn,strategy)
         turn.actions_available = return_action_cards(turn.player)
+
+    return actions_played
 
 
 
@@ -77,15 +91,19 @@ def move_executed_actions(action):
 
 def buy_phase(one_or_two):
     play_treasures()
+    cards_bought = []
     while turn.buys_remaining > 0:
         ctbn = get_card_to_buy(one_or_two)
         if ctbn == 'None':
             break
         else:
+            cards_bought.append(ctbn) # keep track of each buy phase
             ctb = ccd[ctbn]
             turn.player.gain_card(ctb,turn.treasure)
             turn.buys_remaining -= 1
             turn.treasure -= ctb.cost
+
+    return cards_bought
 
 
 def get_card_to_buy(one_or_two):
@@ -155,4 +173,3 @@ def randomize_opponent(opponent):
     deck_hand = opponent.deck + opponent.hand
     shuffle(deck_hand)
     return deck_hand
-
