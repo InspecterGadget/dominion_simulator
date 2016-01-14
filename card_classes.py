@@ -223,7 +223,7 @@ class Workshop:
     def execute_action(self, turn, gain_card):
         standard_action_execute(turn,self)
         gain_card = name_to_inst_dict[gain_card]
-        if gain_card.treasure <= 4:
+        if gain_card.cost <= 4:
             turn.player.gain_card(gain_card,4)
 
 
@@ -242,7 +242,7 @@ class Feast:
     def execute_action(self,turn, gain_card):
         standard_action_execute(turn,self)
         gain_card = name_to_inst_dict[gain_card]
-        if gain_card.treasure <= 5:
+        if gain_card.cost <= 5:
             turn.player.gain_card(gain_card,5)
             turn.player.trash_card(turn.player.played_actions,'Feast')
 
