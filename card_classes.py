@@ -261,9 +261,10 @@ class Chapel:
 
     def execute_action(self,turn, cards_to_trash):
         standard_action_execute(turn,self)
-        for x in range(0,len(cards_to_trash)):
-           # card_to_trash = name_to_inst_dict[cards_to_trash[x]]
-            turn.player.trash_card(turn.player.hand,cards_to_trash[x])
+        if len(cards_to_trash) <= 4:
+            for x in range(0,len(cards_to_trash)):
+              # card_to_trash = name_to_inst_dict[cards_to_trash[x]]
+                turn.player.trash_card(turn.player.hand,cards_to_trash[x])
 
 
 def standard_action_execute(turn,action):
