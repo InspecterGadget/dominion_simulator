@@ -12,6 +12,7 @@ class Player:
         self.hand = []
         self.discard = []
         self.played_actions = []
+        self.turn_number
 
 
     def print_list_name(self, n_list):
@@ -150,6 +151,8 @@ def play_game(player_one, player_two):
             player_two.shuffle_discards()
             player_one.draw_cards(5)
             player_two.draw_cards(5)
+            player_one.turn_number = player_one_turns + 1
+            player_two.turn_number = player_two_turns +1
         take_turn(player_one,player_two,1)
         player_one_turns += 1
         if check_game_not_over():

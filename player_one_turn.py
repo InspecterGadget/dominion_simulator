@@ -18,6 +18,7 @@ class Player_info():
         self.actions_available = 0
         self.buys = 0
         self.treasure = 0
+        self.turn_number = 0
 
 
 class Turn():
@@ -128,6 +129,7 @@ def update_player_info(turn, player_info):
     player_info.bank = turn.bank
     player_info.trash = turn.trash
     player_info.deck = inst_to_string_convert(turn.player.deck)
+    player_info.turn_number = turn.player.turn_number
     player_info.discard = inst_to_string_convert(turn.player.discard)
     player_info.hand = inst_to_string_convert(turn.player.hand)
     player_info.actions_played = turn.player.played_actions
