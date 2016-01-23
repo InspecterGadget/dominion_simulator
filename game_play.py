@@ -232,4 +232,4 @@ def play_game_two(num):
 
 #How to run a game
 
-play_game_two(1000)
+# play_game_two(1000)
