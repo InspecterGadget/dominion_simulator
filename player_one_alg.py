@@ -1,29 +1,20 @@
-__author__ = 'stevenkerr'
-
-
-# import card_classes
-# village = card_classes.Village()
-# smithy = card_classes.Smithy()
-
-
-def manual_option_action_choice(mora, turn):
-    if mora == 'Manual':
-        print "Actions remaining: ", turn.actions_remaining
-        print "Available actions: ", turn.actions_available
-        print "Hand: ", turn.player.print_list_name(turn.player.hand)
-        action = raw_input("Choose action card to play ")
-    else:
-        action = action_choice(turn)
-
-    return action
+___author__ = 'stevenkerr'
 
 
 def action_choice(player_info):
-    villages_in_hand = check_for_card_type(player_info.hand, 'Village')
-    if villages_in_hand > 0:
-        action = 'Village'
+    labs = check_for_card_type(player_info.hand, 'Laboratory')
+    feasts = check_for_card_type(player_info.hand, 'Feast')
+    markets = check_for_card_type(player_info.hand, 'Market')
+    if labs > 0:
+        action = 'Laboratory'
+    elif markets > 0:
+        action = 'Market'
+
+    elif feasts > 0:
+        action = 'Feast'
     else:
-        action = 'Smithy'
+        action = 'Chapel'
+
     return action
 
 
@@ -37,21 +28,23 @@ def execute_action_strategy(player_info, action):
     elif action.name == 'Workshop':
         strategy = raw_input("Choose card to gain ")
     elif action.name == 'Feast':
-        strategy = raw_input("Choose card to gain ")
+        if player_info.bank['Province'] > 4 and player_info.bank['Laboratory'] > 0:
+            strategy = 'Laboratory'
+        elif player_info.bank['Duchy'] > 0:
+            strategy = 'Duchy'
+        else:
+            strategy = 'Estate'
     elif action.name == 'Chapel':
-        x = 0
         strategy = []
-        while x < 4:
-            trash_card = raw_input("Choose a card to trash")
-            if trash_card == 'None':
-                break
-            else:
-                strategy.append(trash_card)
-                x += 1
+        estates = player_info.hand['Estate']
+        coppers = player_info.hand['Copper']
+        coppers_for_player = check_player_for_card_type(player_info, 'Copper')
+        for x in range(0, estates):
+            strategy.append('Estate')
+
 
     else:
-        strategy = 'none'
-
+        strategy = 'None'
     return strategy
 
 
@@ -66,29 +59,40 @@ def check_for_card_type(list, looking_for):
 def buy_choice(player_info):
     smithies_for_player = check_player_for_card_type(player_info, 'Smithy')
     villages_for_player = check_player_for_card_type(player_info, 'Village')
+    silvers_for_player = check_player_for_card_type(player_info, 'Silver')
+    chapels_for_player = check_player_for_card_type(player_info, 'Chapel')
     t = player_info.treasure
     if t >= 8:
         buy = 'Province'
 
-    elif t >= 5 and player_info.bank['Province'] <= 4 and player_info.bank['Duchy'] > 0:
+    elif t >= 5 and player_info.bank['Province'] <= 3 and player_info.bank['Duchy'] > 0:
         buy = 'Duchy'
+
+    elif t >=2 and player_info.bank['Province'] <=2 and player_info.bank['Estate'] >= 1:
+        buy = 'Estate'
 
     elif t >= 6:
         buy = 'Gold'
 
-    elif t >= 4 and smithies_for_player < 2:
-        buy = 'Smithy'
+    elif t >= 5 and player_info.bank['Laboratory'] > 7:
+        buy = 'Laboratory'
+    elif t >=5:
+        buy = 'Market'
 
-    elif t >= 3 and villages_for_player < 0:
-        buy = 'Village'
+    elif t == 4 and player_info.bank['Feast'] > 9:
+        buy = 'Feast'
 
     elif t >= 3:
         buy = 'Silver'
 
+    elif t >= 2 and chapels_for_player == 0 and check_player_for_card_type(player_info,'Silver' < 1):
+        buy = 'Chapel'
+    elif t >= 2 and player_info.bank['Province'] < 4 and player_info.bank['Estate'] > 0:
+        buy = 'Estate'
+
     else:
         buy = 'None'
 
-   # print "player 1 buys", buy
     return buy
 
 

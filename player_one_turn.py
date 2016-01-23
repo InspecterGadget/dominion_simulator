@@ -129,10 +129,9 @@ def update_player_info(turn, player_info):
     player_info.bank = turn.bank
     player_info.trash = turn.trash
     player_info.deck = inst_to_string_convert(turn.player.deck)
-    player_info.turn_number = turn.player.turn_number
     player_info.discard = inst_to_string_convert(turn.player.discard)
     player_info.hand = inst_to_string_convert(turn.player.hand)
-    player_info.actions_played = turn.player.played_actions
+    player_info.actions_played = inst_to_string_convert(turn.player.played_actions)
     player_info.opponent_discard = inst_to_string_convert(turn.opponent.discard)
     player_info.opponent_hand_deck = inst_to_string_convert(randomize_opponent(turn.opponent))
     player_info.actions_remaining = turn.actions_remaining
